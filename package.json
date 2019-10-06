@@ -24,6 +24,7 @@
   "dependencies": {
     "blessed": "^0.1.81",
     "chalk": "^2.4.2",
-    "columnify": "^1.5.4"
+    "columnify": "^1.5.4",
+    "pify": "^4.0.1"
   }
 }
