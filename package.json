@@ -1,0 +1,29 @@
+{
+  "name": "linkmon",
+  "version": "0.0.0",
+  "description": "NPM link monitor CLI utility",
+  "main": "source/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perry-mitchell/linkmon.git"
+  },
+  "keywords": [
+    "npm",
+    "link",
+    "monitor"
+  ],
+  "author": "Perry Mitchell <perry@perrymitchell.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/perry-mitchell/linkmon/issues"
+  },
+  "homepage": "https://github.com/perry-mitchell/linkmon#readme",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "chalk": "^2.4.2",
+    "columnify": "^1.5.4"
+  }
+}
