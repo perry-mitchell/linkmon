@@ -1,6 +1,6 @@
 {
   "name": "linkmon",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "NPM link monitor CLI utility",
   "main": "source/index.js",
   "scripts": {
