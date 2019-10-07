@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const chalk = require("chalk");
 const columnify = require("columnify");
 const minimist = require("minimist");
