@@ -11,6 +11,10 @@ Why? I frequently find that some operations result in npm stripping my linked mo
 
 **`linkmon` can also notify you when a linked dependency becomes unlinked!**
 
+## Installation
+
+Install by running `npm install -g linkmon`, if you intend on using it as a CLI utility. Install it for use within a project by running `npm install linkmon --save`.
+
 ## Usage
 
 `linkmon` id designed as a CLI utility first:
@@ -39,4 +43,25 @@ Arguments:
     house NodeJS projects, or can be a NodeJS project itself. A
     directory is classified as a NodeJS project if it contains a
     package.json file and a node_modules directory.
+```
+
+### NodeJS API
+
+`linkmon` can be used as a NodeJS API as well:
+
+```javascript
+const { scanLinks } = require("linkmon");
+
+(async function() {
+    const links = await scanLinks("../");
+    // links look like the following:
+    // {
+    //     parent: "my-lib",
+    //     parentVersion: "0.3.4",
+    //     linkedPackage: "@company/package",
+    //     linkedPackageVersion: "5.3.12",
+    //     link: "/Users/joe/work/package-dev",
+    //     path: "/Users/joe/work/my-lib"
+    // }
+})();
 ```
