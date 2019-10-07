@@ -11,16 +11,50 @@ const { drawMain } = require("./windows.js");
 const argv = minimist(process.argv.slice(2));
 const {
     _: directories = [],
-    interval: intervalRaw = 10000,
+    help = false,
+    interval: intervalRaw = 15,
     notify = false
 } = argv;
+
+// Help
+if (help) {
+    console.log(`
+Usage: linkmon [options] [arguments]
+
+    Watch a directory:
+        linkmon ~/programming/projects
+    Watch multiple directories, with notifications:
+        linkmon /Users/lucy/git ~/temp/my-project --notify
+    Custom watch interval (30 seconds):
+        linkmon some-dir --interval=30
+
+Options:
+    --interval=             Watch interval, in seconds, for monitoring
+                            the provided project directories. Defaults
+                            to 15 seconds.
+    --notify                Enable operating-system notifications. Is
+                            disabled by default. Requires a GUI such
+                            as Mac OS or Windows.
+
+Arguments:
+    Provide one or more directories for scanning and monitoring. A
+    directory can either contain one or more further directories that
+    house NodeJS projects, or can be a NodeJS project itself. A
+    directory is classified as a NodeJS project if it contains a
+    package.json file and a node_modules directory.
+
+For further information read the documentation on GitHub:
+    https://github.com/perry-mitchell/linkmon
+    `.trim());
+    process.exit(0);
+}
+
+// Init
 if (directories.length <= 0) {
     console.error("A scan directory must be specified");
     process.exit(2);
 }
-const refreshInterval = parseInt(intervalRaw, 10);
-
-// Init
+const refreshInterval = parseInt(intervalRaw, 10) * 1000;
 keypress(process.stdin);
 process.stdin.on("keypress", function (ch, key) {
     if (key && key.name == "q") {
