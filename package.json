@@ -29,6 +29,7 @@
     "file-exists": "^5.0.1",
     "keypress": "^0.2.1",
     "minimist": "^1.2.0",
+    "node-notifier": "^6.0.0",
     "pify": "^4.0.1"
   }
 }
