@@ -59,18 +59,19 @@ async function isProjectRoot(directory) {
 }
 
 async function scanLinks(rootDirectory) {
-    const isProject = await isProjectRoot(rootDirectory);
+    const targetDirectory = path.resolve(process.cwd(), rootDirectory);
+    const isProject = await isProjectRoot(targetDirectory);
     let links = [];
     if (isProject) {
-        links = await getProjectLinks(rootDirectory);
+        links = await getProjectLinks(targetDirectory);
     } else {
         // Perhaps a directory containing projects
-        const dirContents = await readdir(rootDirectory, { withFileTypes: true });
+        const dirContents = await readdir(targetDirectory, { withFileTypes: true });
         for (const fileItem of dirContents) {
             if (!fileItem.isDirectory()) {
                 continue;
             }
-            const pathName = path.join(rootDirectory, fileItem.name);
+            const pathName = path.join(targetDirectory, fileItem.name);
             if (await isProjectRoot(pathName)) {
                 links.push(...await getProjectLinks(pathName));
             }
