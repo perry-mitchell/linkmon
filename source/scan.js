@@ -9,6 +9,8 @@ const realpath = pify(fs.realpath);
 
 async function getProjectLinks(projectDirectory) {
     const nodeModules = path.join(projectDirectory, "./node_modules");
+    const pkgJsonPath = path.join(projectDirectory, "./package.json");
+    const pkgJson = require(pkgJsonPath);
     const links = [];
     const dirContents = await readdir(nodeModules, { withFileTypes: true });
     const additionalScopedContents = [];
@@ -29,11 +31,11 @@ async function getProjectLinks(projectDirectory) {
             if (subIsProject) {
                 const resolvedPath = await realpath(pathName);
                 const subPkgJsonPath = path.join(pathName, "./package.json");
-                const pkgJson = require(subPkgJsonPath);
+                const subPkgJson = require(subPkgJsonPath);
                 links.push({
                     link: resolvedPath,
-                    linkedPackage: pkgJson.name,
-                    linkedPackageVersion: pkgJson.version,
+                    linkedPackage: subPkgJson.name,
+                    linkedPackageVersion: subPkgJson.version,
                     path: pathName
                 });
             } else {
@@ -44,7 +46,10 @@ async function getProjectLinks(projectDirectory) {
             }
         }
     }
-    return links;
+    return links.map(link => Object.assign(link, {
+        parent: pkgJson.name,
+        parentVersion: pkgJson.version
+    }));
 }
 
 async function isProjectRoot(directory) {
@@ -74,4 +79,6 @@ async function scanLinks(rootDirectory) {
     return links;
 }
 
-scanLinks("/Users/perry/work").then(console.log);
+module.exports = {
+    scanLinks
+};
