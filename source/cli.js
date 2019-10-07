@@ -1,11 +1,28 @@
 const chalk = require("chalk");
 const columnify = require("columnify");
+const minimist = require("minimist");
 const { scanLinks } = require("./scan.js");
 const { drawMain } = require("./windows.js");
 
+const argv = minimist(process.argv.slice(2));
+const {
+    _: directories = [],
+    interval: intervalRaw = 10000
+} = argv;
+if (directories.length <= 0) {
+    console.error("A scan directory must be specified");
+    process.exit(2);
+}
+const refreshInterval = parseInt(intervalRaw, 10);
+
 const updateContent = drawMain();
 const runUpdate = () => {
-    scanLinks("")
+    Promise
+        .all(directories.map(dir => scanLinks(dir)))
+        .then(linkAgg => linkAgg.reduce((output, links) => [
+            ...output,
+            ...links
+        ], []))
         .then(links => {
             const projectLinks = links.reduce((output, link) => {
                 const { parent, parentVersion } = link;
@@ -41,6 +58,6 @@ const runUpdate = () => {
             updateContent(`${chalk.bold.red("Error:")} ${err.message}`);
         });
 };
-// scanLinks("/Users/perry/work").then(links => updateContent(JSON.stringify(links)));
 
 runUpdate();
+const refreshTimer = setInterval(runUpdate, refreshInterval);

@@ -27,6 +27,7 @@
     "columnify": "^1.5.4",
     "directory-exists": "^2.0.1",
     "file-exists": "^5.0.1",
+    "minimist": "^1.2.0",
     "pify": "^4.0.1"
   }
 }
