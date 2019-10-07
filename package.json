@@ -25,6 +25,8 @@
     "blessed": "^0.1.81",
     "chalk": "^2.4.2",
     "columnify": "^1.5.4",
+    "directory-exists": "^2.0.1",
+    "file-exists": "^5.0.1",
     "pify": "^4.0.1"
   }
 }
