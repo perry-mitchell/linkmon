@@ -1,6 +1,7 @@
 const chalk = require("chalk");
 const columnify = require("columnify");
 const minimist = require("minimist");
+const keypress = require("keypress");
 const { scanLinks } = require("./scan.js");
 const { drawMain } = require("./windows.js");
 
@@ -15,6 +16,17 @@ if (directories.length <= 0) {
 }
 const refreshInterval = parseInt(intervalRaw, 10);
 
+// Init
+keypress(process.stdin);
+process.stdin.on("keypress", function (ch, key) {
+    if (key && key.name == "q") {
+        process.exit(0);
+    }
+});
+process.stdin.setRawMode(true);
+process.stdin.resume();
+
+// Execution
 const updateContent = drawMain();
 const runUpdate = () => {
     Promise
